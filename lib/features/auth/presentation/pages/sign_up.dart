@@ -10,6 +10,7 @@ import '../../../../config/route/routes.dart';
 import '../../../../core/utils/widgets/app_text.dart';
 import '../../../../core/utils/widgets/loader.dart';
 import '../../../../core/utils/widgets/showSnack.dart';
+import '../../../blog/presentation/pages/blog_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -41,10 +42,12 @@ class _SignUpPageState extends State<SignUpPage> {
           listener: (context, state) {
             if (state is AuthFailure) {
               ShowSnackBar(context, state.message);
-            }
-            if (state is AuthSuccess) {
-              ShowSnackBar(context,
-                  "Hai ${state.uid.name}. You are Successfully Logined!!");
+            } else if (state is AuthSuccess) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                BlogPage.route(),
+                (route) => false,
+              );
             }
           },
           builder: (context, state) {
@@ -56,7 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  AppText(
+                  const AppText(
                     text: "Sign Up",
                     fontWeight: FontWeight.w700,
                     txtSize: 50,

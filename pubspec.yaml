@@ -41,6 +41,13 @@ dependencies:
   get_it: ^7.6.7
   dotted_border: ^2.1.0
   image_picker: ^1.0.7
+  uuid:
+  intl:
+  internet_connection_checker_plus:
+  hive: ^4.0.0-dev.2
+  isar_flutter_libs:
+  path_provider:
+
 
 
 dev_dependencies:

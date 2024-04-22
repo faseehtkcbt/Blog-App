@@ -6,9 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../config/route/routes.dart';
 import '../../../../core/utils/widgets/app_text.dart';
-import '../../../../core/utils/widgets/showDialog.dart';
+import '../../../../core/utils/widgets/loader.dart';
 import '../../../../core/utils/widgets/showSnack.dart';
 
+import '../../../blog/presentation/pages/blog_page.dart';
 import '../bloc/auth_bloc.dart';
 
 class SignInPage extends StatefulWidget {
@@ -37,26 +38,26 @@ class _SignInPageState extends State<SignInPage> {
         padding: const EdgeInsets.all(20.0),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is AuthLoading) {
-              ShowLoadingDialog(context);
-            }
             if (state is AuthFailure) {
-              Navigator.pop(context);
               ShowSnackBar(context, state.message);
-            }
-            if (state is AuthSuccess) {
-              Navigator.pop(context);
-              ShowSnackBar(context,
-                  "Hai ${state.uid.name}. YOu are Successfully Logined!!");
+            } else if (state is AuthSuccess) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                BlogPage.route(),
+                (route) => false,
+              );
             }
           },
           builder: (context, state) {
+            if (state is AuthLoading) {
+              return const Loader();
+            }
             return Form(
               key: formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  AppText(
+                  const AppText(
                     text: "Sign In",
                     fontWeight: FontWeight.w700,
                     txtSize: 50,
